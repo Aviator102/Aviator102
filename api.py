@@ -18,26 +18,19 @@ def conectar_bd():
 
 @app.route('/api/resultados', methods=['GET'])
 def api_resultados():
-    connection = conectar_bd()
-    if connection is None:
-        return jsonify({"error": "Erro de conexão com o banco de dados"}), 500
-
     try:
+        connection = conectar_bd()
+        if connection is None:
+            return jsonify({"error": "Erro de conexão com o banco de dados"}), 500
+
         cursor = connection.cursor(dictionary=True)
         cursor.execute("SELECT id, valor, hora FROM resultados ORDER BY id DESC LIMIT 100")
         resultados = cursor.fetchall()
-
-        # Converte 'hora' para string, se necessário
-        for resultado in resultados:
-            if isinstance(resultado['hora'], timedelta):
-                resultado['hora'] = str(resultado['hora'])
-
-        return jsonify(resultados)
-    except Error as e:
-        return jsonify({"error": f"Erro ao consultar o banco de dados: {e}"}), 500
-    finally:
         cursor.close()
         connection.close()
+        return jsonify(resultados)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
