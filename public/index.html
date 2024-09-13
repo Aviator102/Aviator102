@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Últimos Resultados</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .resultado { border: 1px solid #ddd; padding: 10px; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <h1>Últimos Resultados</h1>
+  <div id="resultados"></div>
+  <script>
+    async function fetchResultados() {
+      try {
+        const response = await fetch('/resultados');
+        const data = await response.json();
+        const resultadosDiv = document.getElementById('resultados');
+        resultadosDiv.innerHTML = data.map(r => `<div class="resultado">${r.valor} - ${r.hora}</div>`).join('');
+      } catch (error) {
+        console.error('Erro ao buscar resultados:', error);
+      }
+    }
+    fetchResultados();
+  </script>
+</body>
+</html>
