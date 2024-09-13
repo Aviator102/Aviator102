@@ -1,12 +1,22 @@
 {
-  "name": "my-vercel-api",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "start": "node api/index.js"
-  },
-  "dependencies": {
-    "express": "^4.17.3",
-    "mysql2": "^2.3.3"
-  }
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/resultados",
+      "dest": "/api/resultados.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
 }
