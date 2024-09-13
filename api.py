@@ -26,6 +26,12 @@ def api_resultados():
         cursor = connection.cursor(dictionary=True)
         cursor.execute("SELECT id, valor, hora FROM resultados ORDER BY id DESC LIMIT 100")
         resultados = cursor.fetchall()
+
+        # Converte 'hora' para string, se necessário
+        for resultado in resultados:
+            if isinstance(resultado['hora'], timedelta):
+                resultado['hora'] = str(resultado['hora'])
+
         return jsonify(resultados)
     except Error as e:
         return jsonify({"error": f"Erro ao consultar o banco de dados: {e}"}), 500
