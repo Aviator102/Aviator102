@@ -21,6 +21,7 @@ def api_resultados():
     try:
         connection = conectar_bd()
         if connection is None:
+            print("Erro: Conexão com o banco de dados não estabelecida.")
             return jsonify({"error": "Erro de conexão com o banco de dados"}), 500
 
         cursor = connection.cursor(dictionary=True)
@@ -30,6 +31,7 @@ def api_resultados():
         connection.close()
         return jsonify(resultados)
     except Exception as e:
+        print(f"Erro durante a execução da API: {e}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
