@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Consulta de últimos resultados">
-    <meta name="theme-color" content="#4a90e2"> <!-- Azul mais forte -->
+    <meta name="theme-color" content="#4a90e2">
     <link rel="icon" href="/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Consultar Resultados</title>
@@ -22,105 +23,63 @@
             padding: 20px;
         }
         h1 {
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin-bottom: 20px;
             text-transform: uppercase;
-            background: -webkit-linear-gradient(45deg, #4a90e2, #000); /* Azul mais forte e preto */
+            background: -webkit-linear-gradient(45deg, #39ff14, #000); /* Verde neon e preto */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-align: center;
-            line-height: 1.2; /* Melhora o espaçamento entre as linhas */
-        }
-        h1 .destaque-amarelo {
-            color: #FFFF00; /* Amarelo para 'Vai de bet!' */
-            font-weight: bold;
-            -webkit-background-clip: text; /* Garante que o texto tenha cor */
-            -webkit-text-fill-color: #FFFF00; /* Garante que a cor do texto seja amarela */
-        }
-        .listaResultados {
-            background-color: #2f2a2a;
-            border-radius: 5px;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 15px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .dataResult {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-bottom: 20px;
-        }
-        .ele {
-            background-color: #9ba245;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 30px;
-            width: 80px;
-            margin: 10px;
         }
         #resultados {
             display: grid;
-            grid-template-columns: repeat(9, minmax(100px, 1fr)); /* 9 colunas fixas */
-            gap: 5px; /* Espaçamento entre os itens */
+            grid-template-columns: repeat(6, 1fr); /* 6 colunas */
+            gap: 10px; /* Espaçamento entre os itens */
             width: 100%;
-            max-width: 1000px; /* Ajuste o tamanho máximo da área de resultados */
+            max-width: 600px;
         }
         .resultado {
             background-color: #1a1a1a; /* Fundo escuro para os resultados */
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            padding: 8px;
-            font-size: 12px; /* Fonte menor */
+            padding: 10px;
+            font-size: 14px; /* Fonte menor */
             text-align: center;
             transition: transform 0.3s ease, border-color 0.3s ease;
             border: 3px solid transparent;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
         }
         .resultado span {
             font-weight: bold;
-            color: #000; /* Cor preta para os números */
-        }
-        .resultado .hora {
-            margin-top: 5px;
-            font-size: 10px;
-            color: #ccc; /* Cor clara para a hora */
+            color: black; /* Cor preta para os números */
         }
         .resultado:hover {
             transform: translateY(-5px);
-            border-color: #007bff; /* Azul mais forte */
+            border-color: #4a90e2;
         }
-        
+
         /* Tornando o layout responsivo */
+        @media (max-width: 1024px) {
+            #resultados {
+                grid-template-columns: repeat(4, 1fr); /* 4 colunas para tablets */
+            }
+        }
         @media (max-width: 600px) {
             h1 {
-                font-size: 1.5rem;
-                margin-bottom: 15px;
+                font-size: 2rem;
             }
             #resultados {
-                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Ajusta as colunas para telas menores */
+                grid-template-columns: repeat(2, 1fr); /* 2 colunas para smartphones */
                 gap: 5px; /* Reduz o espaçamento entre os itens no mobile */
             }
             .resultado {
-                font-size: 10px;
-                padding: 5px; /* Ajuste do padding para telas menores */
+                font-size: 12px;
+                padding: 8px; /* Ajuste do padding para telas menores */
             }
         }
     </style>
 </head>
 <body>
-    <h1>
-        <i class="fas fa-chart-line"></i> Super Dashboard Sonhador <br>
-        <span class="destaque-amarelo">Vai de bet!</span>
-    </h1>
-    <div class="listaResultados" id="resultados"></div>
+    <h1><i class="fas fa-chart-line"></i> Dashboard Sonhador</h1>
+    <div id="resultados"></div>
     
     <script>
         function definirCorTexto(valor) {
@@ -128,7 +87,7 @@
             try {
                 const valorFloat = parseFloat(valor);
                 if (1 <= valorFloat && valorFloat <= 1.99) {
-                    cor = "#007bff"; // Azul claro
+                    cor = "#ADD8E6"; // Azul claro
                 } else if (2 <= valorFloat && valorFloat <= 9.99) {
                     cor = "#8A2BE2"; // Roxo
                 } else if (valorFloat >= 10) {
@@ -153,10 +112,7 @@
                     div.className = 'resultado';
                     div.style.borderColor = definirCorTexto(resultado.valor);
                     div.style.backgroundColor = definirCorTexto(resultado.valor); // Preenchimento com a cor da borda
-                    div.innerHTML =         
-                        <span>${resultado.valor}</span>
-                        <div class="hora">${resultado.hora ? resultado.hora : 'Hora não disponível'}</div> <!-- Hora abaixo do valor -->
-                    ;
+                    div.innerHTML = `<span>${resultado.valor}</span> - ${resultado.hora}`;
                     resultadosDiv.appendChild(div);
                 });
             } catch (error) {
